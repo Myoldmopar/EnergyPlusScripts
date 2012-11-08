@@ -8,8 +8,7 @@ import sys              # for allowing a clean exit
 import shutil
 
 # debug spewer and flag
-DoDebug = True
-def Out(msg):
+def Out(msg, DoDebug = False):
     if DoDebug:
         print " < debug > " + msg
 
@@ -17,17 +16,19 @@ def Out(msg):
 exName = "myproject_intel_debug"
 idf = "in.idf"
 iconUri = "file:///home/edwin/bin/ep.png"
+goodIconUri = "file:///home/edwin/bin/mark_success.png"
+badIconUri = "file:///home/edwin/bin/mark_error.png"
 
-# there should be at most one command line argument: the name of the (E+) executable in the current directory
+# there should be at least one command line argument: the name of the (E+) executable in the current directory
 Out("len of argv list = %i" % len(sys.argv))
 if len(sys.argv) > 1:
     exName = sys.argv[1]
-    Out("Overriding executable with: " + sys.argv[1])
+    Out("Executable: " + sys.argv[1])
 if len(sys.argv) > 2:
     idf = sys.argv[2]
     Out("Overriding input file with: " + sys.argv[2])
-if len(sys.argv) > 3:
-    Out("Usage: " + sys.argv[0] + " [Executable File] [Input File]")
+if len(sys.argv) > 3 or len(sys.argv) == 1:
+    Out("Usage: " + sys.argv[0] + " Executable File [Input File]", True)
     exit()
 
 # get this for execution and reporting
@@ -86,7 +87,7 @@ Out("Waited for program to re-join")
 # make sure the end file was created
 if not os.path.exists("eplusout.end"):
     Out("eplusout.end was not created...something's wrong!")
-    notif.update("Simulation Failed?", "%s" % (exName), iconUri) 
+    notif.update("Simulation Failed?", "%s" % (exName), badIconUri) 
     notif.show()
     exit()
 
@@ -99,10 +100,15 @@ Out("Opened and read resulting eplusout.end file")
 if "SUCCESS" in result.upper():
     # try to parse out the run time:
     runTime = result.split(";")[2].split("=")[1].strip()
-    notif.update("Simulation Completed", "%s\nRun Time = %s" % (localExecPath,runTime), iconUri) 
+    notif.update("Simulation Completed", "%s\nRun Time = %s" % (localExecPath,runTime), goodIconUri) 
     Out("Issued successful simulation notification")
+    # try to run readvars as well now
+    Out("Running readvars")
+    p = subprocess.Popen("readvars")
+    retval = p.wait()
+    Out("readvars re-joined")    
 else:
-    notif.update(" * * Simulation Failed! * * ", "%s" % (localExecPath), iconUri) 
+    notif.update(" * * Simulation Failed! * * ", "%s" % (localExecPath), badIconUri) 
     Out("Issued erroroneous simulation notification")
 
 # re-show the notification
