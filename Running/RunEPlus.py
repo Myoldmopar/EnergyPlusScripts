@@ -104,7 +104,7 @@ if "SUCCESS" in result.upper():
     Out("Issued successful simulation notification")
     # try to run readvars as well now
     Out("Running readvars")
-    p = subprocess.Popen("readvars")
+    p = subprocess.Popen(["readvars", "", "unlimited"])
     retval = p.wait()
     Out("readvars re-joined")    
 else:
