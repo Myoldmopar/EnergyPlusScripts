@@ -34,8 +34,6 @@ if len(sys.argv) > 3 or len(sys.argv) == 1:
 # get this for execution and reporting
 curDir = os.getcwd()
 Out("Operating in current directory = " + curDir)
-localDir = curDir.split("/")[-1]
-localExecPath = ".../%s/%s" % (localDir, exName)
 
 # check that the executable specified actually exists
 if not os.path.exists(curDir+"/"+exName):
@@ -74,12 +72,12 @@ if os.path.exists("eplusout.csv"):
     os.remove("eplusout.csv")
 
 # start-up notification
-notif = pynotify.Notification("Simulation Starting", "%s" % (localExecPath), iconUri) 
+notif = pynotify.Notification("Simulation Starting", "Executable: %s\nInputFile: %s" % (exName, idf), iconUri) 
 notif.show()
 Out("Showed startup notification")
 
 # execute the application
-p = subprocess.Popen(curDir + "/" + exName) #, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+p = subprocess.Popen(curDir + "/" + exName) 
 Out("Executed program")
 retval = p.wait()
 Out("Waited for program to re-join")
@@ -100,7 +98,7 @@ Out("Opened and read resulting eplusout.end file")
 if "SUCCESS" in result.upper():
     # try to parse out the run time:
     runTime = result.split(";")[2].split("=")[1].strip()
-    notif.update("Simulation Completed", "%s\nRun Time = %s" % (localExecPath,runTime), goodIconUri) 
+    notif.update("Simulation Completed", "Executable: %s\nInputFile: %s\nRunTime: %s" % (exName, idf, runTime), goodIconUri) 
     Out("Issued successful simulation notification")
     # try to run readvars as well now
     Out("Running readvars")
@@ -108,7 +106,7 @@ if "SUCCESS" in result.upper():
     retval = p.wait()
     Out("readvars re-joined")    
 else:
-    notif.update(" * * Simulation Failed! * * ", "%s" % (localExecPath), badIconUri) 
+    notif.update(" * * Simulation Failed! * * ", "Executable: %s\nInputFile: %s" % (exName, idf), badIconUri) 
     Out("Issued erroroneous simulation notification")
 
 # re-show the notification
