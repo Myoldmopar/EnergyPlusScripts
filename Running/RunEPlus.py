@@ -15,6 +15,7 @@ def Out(msg, DoDebug = False):
 # defaults if nothing else given
 exName = "myproject_intel_debug"
 idf = "in.idf"
+epw = "in.epw"
 iconUri = "file:///home/edwin/bin/ep.png"
 goodIconUri = "file:///home/edwin/bin/mark_success.png"
 badIconUri = "file:///home/edwin/bin/mark_error.png"
@@ -27,8 +28,11 @@ if len(sys.argv) > 1:
 if len(sys.argv) > 2:
     idf = sys.argv[2]
     Out("Overriding input file with: " + sys.argv[2])
-if len(sys.argv) > 3 or len(sys.argv) == 1:
-    Out("Usage: " + sys.argv[0] + " Executable File [Input File]", True)
+if len(sys.argv) > 3:
+    epw = sys.argv[3]
+    Out("Overriding weather file with: " + sys.argv[3])
+if len(sys.argv) > 4 or len(sys.argv) == 1:
+    Out("Usage: " + sys.argv[0] + " Executable File [Input File] [Weather File]", True)
     exit()
 
 # get this for execution and reporting
@@ -63,11 +67,17 @@ if os.path.exists("inBackup.idf"):
 if idf != "in.idf":
     if os.path.exists("in.idf"):
         shutil.copy("in.idf","inBackup.idf")
-        #p = subprocess.Popen("cp in.idf inBackup.idf")
-        #p.wait()
     shutil.copy(idf, "in.idf")
-    #p = subprocess.Popen("cp " + idf + " inBackup.idf")
-    #p.wait()
+
+# prepare input files, remove previous output files
+if os.path.exists("inBackup.epw"):
+    os.remove("inBackup.epw")
+if idf != "in.epw":
+    if os.path.exists("in.epw"):
+        shutil.copy("in.epw","inBackup.epw")
+    shutil.copy(epw, "in.epw")
+    
+# remove old results file    
 if os.path.exists("eplusout.csv"):
     os.remove("eplusout.csv")
 
