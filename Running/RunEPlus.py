@@ -69,10 +69,10 @@ if idf != "in.idf":
         shutil.copy("in.idf","inBackup.idf")
     shutil.copy(idf, "in.idf")
 
-# prepare input files, remove previous output files
+# prepare weather files, remove previous output files
 if os.path.exists("inBackup.epw"):
     os.remove("inBackup.epw")
-if idf != "in.epw":
+if epw != "in.epw":
     if os.path.exists("in.epw"):
         shutil.copy("in.epw","inBackup.epw")
     shutil.copy(epw, "in.epw")
