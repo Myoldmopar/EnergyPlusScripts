@@ -19,7 +19,6 @@
 #-> tree
 #.
 #├── base
-#│   ├── base
 #│   ├── Energy+.idd
 #│   └── inputFiles
 #│       ├── 1ZoneEvapCooler.idf
@@ -28,12 +27,11 @@
 #│       └── 1ZoneUncontrolled.idf
 #├── mod
 #│   ├── Energy+.idd
-#│   ├── inputFiles
-#│   │   ├── 1ZoneEvapCooler.idf
-#│   │   ├── 1ZoneUncontrolled_DD2009.idf
-#│   |   ├──  -- others --
-#│   │   └── 1ZoneUncontrolled.idf
-#│   └── mod
+#│   └── inputFiles
+#│       ├── 1ZoneEvapCooler.idf
+#│       ├── 1ZoneUncontrolled_DD2009.idf
+#│       ├──  -- others --
+#│       └── 1ZoneUncontrolled.idf
 #└── output
 #
 # this way we would only have to specify perhaps the executable names...or maybe we could require those also!?
@@ -125,7 +123,7 @@ export DDONLY=Y
 
 # check command line args
 if [ $# -ne 5 ]; then
-    echo "Error: Command line argument count does not equal 4.  Proper usage:"
+    echo "Error: Command line argument count does not equal 5.  Proper usage:"
     usage "`basename $0`"
     exit 1
 fi
@@ -171,7 +169,7 @@ echo "Waiting for them to finish..."
 wait "${pidA}"
 echo "base run is now finished!"
 wait "${pidB}"
-echo "mod run is finished, though it might have beaten the base runs, but who cares?"
+echo "mod run is now finished!"
 echo "Both runs are done"
 
 # now do a simple process of the csvs in each output directory
