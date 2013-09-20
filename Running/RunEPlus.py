@@ -16,9 +16,9 @@ def Out(msg, DoDebug = False):
 exName = "myproject_intel_debug"
 idf = "in.idf"
 epw = "in.epw"
-iconUri = "file:///home/edwin/bin/ep.png"
-goodIconUri = "file:///home/edwin/bin/mark_success.png"
-badIconUri = "file:///home/edwin/bin/mark_error.png"
+iconUri = "file:///home/elee/Pictures/ep.png"
+goodIconUri = "file:///home/elee/Pictures/mark_success.png"
+badIconUri = "file:///home/elee/Pictures/mark_error.png"
 
 # there should be at least one command line argument: the name of the (E+) executable in the current directory
 Out("len of argv list = %i" % len(sys.argv))
