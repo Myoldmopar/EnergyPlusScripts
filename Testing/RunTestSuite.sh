@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# put base, mod, output all into a single timestamped folder in the root TestSuite directory
+
 # run E+ using two different working directories
 # ToDo: everything!
 # ideas: allow a basic project directory, including a src directory, inputFiles directory, etc.

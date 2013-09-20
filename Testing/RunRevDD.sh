@@ -62,7 +62,7 @@ SS=" * ReverseDD Script: "
  
 # default values to be overridden with cl arguments
 fEXEC='EnergyPlus_intel_debug'
-fFILE='PipingSystem_Underground_TwoPipe.idf'
+fFILE='in.idf'
 
 # for diagnostics, spew the current directory
 echo "${SS}Current Directory=\"`pwd`\""
@@ -160,7 +160,7 @@ cp ${fCSV} ${fCSVA}
 
 # 3d: Archive any reverse dd struc files found
 mkdir -p "DD1Structures"
-mv RevDDStruc* DD1Structures/
+mv eplusout* DD1Structures/
 
 # debug
 echo "${SS}Output from base DD configuration stored"
@@ -226,7 +226,7 @@ cp ${fTMP} ${fCSVB}
 
 # 6e: Archive any reverse dd struc files found
 mkdir -p "DD2Structures"
-mv RevDDStruc* DD2Structures/
+mv eplusout* DD2Structures/
 
 # debug
 echo "${SS}Output from reverse DD configuration stored"
